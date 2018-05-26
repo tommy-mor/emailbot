@@ -8,10 +8,7 @@ from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 from email.mime.text import MIMEText
-import schedule
-import time
 import base64
-import argparse
 
 # Setup the Gmail API
 SCOPES = 'https://www.googleapis.com/auth/gmail.modify'
@@ -34,14 +31,3 @@ def send_email():
     results = service.users().messages().send(userId='me', body=message).execute()
     print(results)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--schedule', dest='sched', action='store_const', default=False, const=True)
-args = parser.parse_args()
-print(args.sched)
-if (args.sched):
-    schedule.every().day.at("13:00").do(send_email)
-    while True:
-        schedule.run_pending()
-    time.sleep(60)
-else:
-    send_email()

@@ -9,7 +9,7 @@ reddit_password
 app client ID
 app client secret
 """
-def get_reddit_posts(subreddits):
+def get_reddit_posts(subreddits, num):
     try:
         with open('info.txt') as f:
             uname = f.readline().strip()
@@ -26,7 +26,7 @@ def get_reddit_posts(subreddits):
         posts = []
         for sub in subreddits:
             postsforsub = {'name': sub, 'posts': list()}
-            for submission in reddit.subreddit(sub).top('day', limit=15):
+            for submission in reddit.subreddit(sub).top('day', limit=num):
                 postsforsub['posts'].append({'score': submission.score,
                                             'title': submission.title,
                                             'url': submission.url})
@@ -34,5 +34,3 @@ def get_reddit_posts(subreddits):
         return posts
     except FileNotFoundError as e:
         print("you need to put your reddit details in a file like: %s" % helpmsg)
-    except Exception as e:
-        print(e)

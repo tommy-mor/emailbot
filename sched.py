@@ -5,20 +5,25 @@ import time
 import reddit
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--schedule', dest='sched', action='store_const', default=False, const=True)
+parser.add_argument('--num', dest='num', type=int, default=10)
+parser.add_argument('--subs', dest='subs', type=str, nargs='+', default=['all'])
+parser.add_argument('--time', dest='time', type=str, default=None, help='if this option is used and given HH:MM time format, it will run at that time every day')
+def do_email():
+    p = reddit.get_reddit_posts(args.subs, args.num)
+    email = "welcome to your reddit daily digest"
+    for sub in p:
+        email += "<h4>%s</h4>" % sub['name']
+        email += "<br>".join(["%d -- %s -- <a href=\"%s\">link</a>" % (post['score'], post['title'], post['url'])
+                              for post in sub['posts']])
+    emailreminder.send_email('reddit digest', email)
+
 args = parser.parse_args()
-print(args.sched)
-if (args.sched):
-    schedule.every().day.at("13:00").do(emailreminder.send_email)
+if (args.time):
+    schedule.every().day.at(args.time).do(do_email)
     while True:
         schedule.run_pending()
     time.sleep(60)
 else:
-    p = reddit.get_reddit_posts(['hiphopheads','globaloffensive'])
-    email = """
-<b>this is the email test %s,</b>
-second thing %s
-    """ % (p[0]['posts'][0], p[1]['posts'][1])
-    emailreminder.send_email('reddit digest', email)
+    do_email()
 
 

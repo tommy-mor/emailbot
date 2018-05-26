@@ -21,7 +21,7 @@ service = build('gmail', 'v1', http=creds.authorize(Http()))
 
 def send_email(messagetitle, messagebody):
     # Call the Gmail API
-    message = MIMEText(messagebody)
+    message = MIMEText(messagebody, 'html')
     message['to'] = 'thmorriss@gmail.com'
     message['from'] = 'thmorriss@gmail.com'
     message['subject'] = messagetitle

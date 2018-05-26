@@ -2,6 +2,7 @@ import emailreminder
 import argparse
 import schedule
 import time
+import reddit
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--schedule', dest='sched', action='store_const', default=False, const=True)
@@ -13,4 +14,11 @@ if (args.sched):
         schedule.run_pending()
     time.sleep(60)
 else:
-    emailreminder.send_email()
+    p = reddit.get_reddit_posts(['hiphopheads','globaloffensive'])
+    email = """
+<b>this is the email test %s,</b>
+second thing %s
+    """ % (p[0]['posts'][0], p[1]['posts'][1])
+    emailreminder.send_email('reddit digest', email)
+
+

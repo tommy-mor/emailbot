@@ -39,7 +39,7 @@ parser.add_argument('--schedule', dest='sched', action='store_const', default=Fa
 args = parser.parse_args()
 print(args.sched)
 if (args.sched):
-    schedule.every().day.at("13:00").do(send_email,'It is 01:00')
+    schedule.every().day.at("13:00").do(send_email)
     while True:
         schedule.run_pending()
     time.sleep(60)

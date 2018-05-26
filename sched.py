@@ -22,7 +22,7 @@ if (args.time):
     schedule.every().day.at(args.time).do(do_email)
     while True:
         schedule.run_pending()
-    time.sleep(60)
+        time.sleep(60)
 else:
     do_email()
 

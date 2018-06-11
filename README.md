@@ -10,6 +10,13 @@ to setup the gmail api, run emailreminder.py when connected to a monitor.
 
 to setup the reddit api, make a reddit api bot according to [this tutorial](https://github.com/reddit-archive/reddit/wiki/OAuth2-Quick-Start-Example#first-steps), then create a file in the root directory of project according to the instructions in reddit.py
 
+also, make a file named subs.txt with this format
+```
+sender email (the account you used for gmail api)
+destination_email subreddit number_of_posts
+destination_email subreddit number_of_posts
+... (for as many subreddits as you want)
+```
 
 to run, run the file sched.py with arguments with python3
 

@@ -9,7 +9,7 @@ reddit_password
 app client ID
 app client secret
 """
-def get_reddit_posts(subreddits, num):
+def get_reddit_posts(jobs):
     try:
         with open('info.txt') as f:
             uname = f.readline().strip()
@@ -24,9 +24,9 @@ def get_reddit_posts(subreddits, num):
                             user_agent='email reminder bot')
 
         posts = []
-        for sub in subreddits:
+        for sub, n in jobs:
             postsforsub = {'name': sub, 'posts': list()}
-            for submission in reddit.subreddit(sub).top('day', limit=num):
+            for submission in reddit.subreddit(sub).top('day', limit=int(n)):
                 postsforsub['posts'].append({'score': submission.score,
                                             'title': submission.title,
                                             'url': submission.url})

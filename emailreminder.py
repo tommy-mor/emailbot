@@ -19,15 +19,15 @@ if not creds or creds.invalid:
     creds = tools.run_flow(flow, store)
 service = build('gmail', 'v1', http=creds.authorize(Http()))
 
-def send_email(messagetitle, messagebody):
+def send_email(messagetitle, messagebody, destination_email, source_email):
     # Call the Gmail API
     message = MIMEText(messagebody, 'html')
-    message['to'] = 'thmorriss@gmail.com'
-    message['from'] = 'thmorriss@gmail.com'
+    message['to'] = destination_email
+    message['from'] = source_email
     message['subject'] = messagetitle
 
     message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
 
-    results = service.users().messages().send(userId='me', body=message).execute()
+    results = service.users().messages().send(userId=destination_email, body=message).execute()
     print(results)
 

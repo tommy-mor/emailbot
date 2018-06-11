@@ -12,3 +12,8 @@ to setup the reddit api, make a reddit api bot according to [this tutorial](http
 
 
 to run, run the file sched.py with arguments with python3
+
+## todo
+- make it so it emails actually the right person
+- make it so that you can config ur subreddits in a file
+- make it so that you can email ur friends too

@@ -14,6 +14,7 @@ def get_details_from_file():
         jobs = [tuple(x.strip().split()) for x in f]
     return (source_email, jobs)
 
+
 def do_email(source, dest, jobs):
     p = reddit.get_reddit_posts(jobs)
     email = "welcome to your reddit daily digest"
@@ -23,14 +24,7 @@ def do_email(source, dest, jobs):
                               for post in sub['posts']])
     emailreminder.send_email('reddit digest', email, dest, source)
 
-args = parser.parse_args()
-detalis = get_details_from_file()
-if (args.time):
-    schedule.every().day.at(args.time).do(do_email)
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-else:
+def run():
     source, jobs =  get_details_from_file()
     destsmap = {}
     for dest, sub, n in jobs:
@@ -38,5 +32,15 @@ else:
         destsmap[dest].append((sub, n))
     for dest, jobs in destsmap.items():
         do_email(source, dest, jobs)
+
+args = parser.parse_args()
+detalis = get_details_from_file()
+if (args.time):
+    schedule.every().day.at(args.time).do(run)
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+else:
+	run()
 
 
